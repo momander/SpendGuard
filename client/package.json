@@ -1,0 +1,11 @@
+{
+    "name": "spendguard-client",
+    "version": "1.0.0",
+    "description": "Frontend for SpendGuard",
+    "scripts": {
+        "start": "serve ."
+    },
+    "devDependencies": {
+        "serve": "^14.2.0"
+    }
+}

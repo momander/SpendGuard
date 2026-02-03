@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendGuard - Login</title>
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>SpendGuard</h1>
+        <p>Login to manage purchase requests</p>
+        <button id="login-btn" class="btn-primary">Sign in with Google</button>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script type="module">
+        import { signIn, onAuthStateChanged } from './src/auth.js';
+
+        document.getElementById('login-btn').addEventListener('click', signIn);
+
+        onAuthStateChanged(user => {
+            if (user) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+
+</html>

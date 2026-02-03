@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpendGuard - Dashboard</title>
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+
+<body>
+    <header>
+        <h2>SpendGuard</h2>
+        <div>
+            <span id="user-email"></span>
+            <button id="logout-btn" style="color: black; margin-left: 10px;">Logout</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="employee-section">
+            <h3>New Request</h3>
+            <form id="request-form">
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="desc" required placeholder="Confetti cannon">
+                </div>
+                <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" id="amount" required min="0.01" step="0.01">
+                </div>
+                <!-- Date field removed -->
+                <button type="submit" class="btn-primary">Submit</button>
+            </form>
+
+            <h3>My Requests</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Only visible if populated by manager logic -->
+        <section id="manager-section">
+            <h3>Pending Approvals (Manager)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="approvals-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script type="module">
+        import { setupDashboard } from './src/ui.js';
+        import { onAuthStateChanged } from './src/auth.js';
+
+        onAuthStateChanged(user => {
+            if (user) {
+                setupDashboard(user);
+            } else {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+
+</html>
