@@ -15,10 +15,13 @@ export function onAuthStateChanged(callback) {
     // Check local storage for mock token
     const token = localStorage.getItem('mockToken');
     if (token) {
+        const parts = token.split('-');
+        const role = parts[0];
+        const id = parts[1] || (role === 'admin' ? 'admin_uid' : 'user_uid');
         callback({
-            uid: token === 'admin' ? 'admin_uid' : 'user_uid',
-            email: token === 'admin' ? 'admin@example.com' : 'user@example.com',
-            role: token
+            uid: id,
+            email: role === 'admin' ? 'admin@example.com' : 'user@example.com',
+            role: role
         });
     } else {
         callback(null);

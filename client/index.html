@@ -19,8 +19,8 @@
     <script type="module">
         import { signIn, onAuthStateChanged } from './src/auth.js';
 
-        document.getElementById('login-admin-btn').addEventListener('click', () => signIn('admin'));
-        document.getElementById('login-user-btn').addEventListener('click', () => signIn('user'));
+        document.getElementById('login-admin-btn').addEventListener('click', () => signIn('admin-456'));
+        document.getElementById('login-user-btn').addEventListener('click', () => signIn('user-123'));
 
         onAuthStateChanged(user => {
             if (user) {

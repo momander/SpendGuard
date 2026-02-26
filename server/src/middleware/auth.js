@@ -5,12 +5,15 @@ async function verifyToken(req, res, next) {
     }
 
     const token = authHeader.split('Bearer ')[1];
+    const parts = token.split('-');
+    const roleToken = parts[0];
+    const idToken = parts[1] || (roleToken === 'admin' ? 'admin_uid' : 'user_uid');
 
-    if (token === 'admin' || token === 'user') {
+    if (roleToken === 'admin' || roleToken === 'user') {
         req.user = {
-            uid: token === 'admin' ? 'admin_uid' : 'user_uid',
-            email: token === 'admin' ? 'admin@example.com' : 'user@example.com',
-            role: token === 'admin' ? 'manager' : 'employee'
+            uid: idToken,
+            email: roleToken === 'admin' ? 'admin@example.com' : 'user@example.com',
+            role: roleToken === 'admin' ? 'manager' : 'employee'
         };
         next();
     } else {
