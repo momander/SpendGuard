@@ -16,14 +16,10 @@ app.use('/api', verifyToken);
 // Get current user profile
 app.get('/api/user/me', async (req, res) => {
     try {
-        const uid = req.user.uid;
-        const userDoc = await db.collection('users').doc(uid).get();
-        const role = userDoc.exists ? userDoc.data().role : 'employee';
-
         res.json({
-            uid,
+            uid: req.user.uid,
             email: req.user.email,
-            role
+            role: req.user.role
         });
     } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -43,9 +39,6 @@ app.post('/api/requests', async (req, res) => {
         }
 
         let status = 'PENDING';
-        if (amount < 50) {
-            status = 'APPROVED';
-        }
 
         const docRef = await db.collection('requests').add({
             uid,
@@ -69,12 +62,7 @@ app.post('/api/requests', async (req, res) => {
 app.get('/api/requests', async (req, res) => {
     try {
         const uid = req.user.uid;
-
-        // Check user role from Firestore directly for security
-        // Assuming a 'users' collection where document ID is uid and has field 'role'
-        // If user doc doesn't exist, assume 'employee'
-        const userDoc = await db.collection('users').doc(uid).get();
-        const role = userDoc.exists ? userDoc.data().role : 'employee';
+        const role = req.user.role;
 
         let snapshot;
         if (role === 'manager') {
@@ -82,7 +70,6 @@ app.get('/api/requests', async (req, res) => {
         } else {
             snapshot = await db.collection('requests')
                 .where('uid', '==', uid)
-                .orderBy('createdAt', 'desc')
                 .get();
         }
 
@@ -90,6 +77,11 @@ app.get('/api/requests', async (req, res) => {
         snapshot.forEach(doc => {
             requests.push({ id: doc.id, ...doc.data() });
         });
+
+        // Sort in memory to avoid needing a Firestore composite index
+        if (role !== 'manager') {
+            requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
 
         res.json(requests);
     } catch (error) {
@@ -102,15 +94,13 @@ app.get('/api/requests', async (req, res) => {
 app.patch('/api/requests/:id', async (req, res) => {
     try {
         const { status } = req.body;
-        const uid = req.user.uid;
         const requestId = req.params.id;
 
         if (!['APPROVED', 'REJECTED'].includes(status)) {
             return res.status(400).json({ error: 'Invalid status' });
         }
 
-        const userDoc = await db.collection('users').doc(uid).get();
-        const role = userDoc.exists ? userDoc.data().role : 'employee';
+        const role = req.user.role;
 
         if (role !== 'manager') {
             return res.status(403).json({ error: 'Forbidden: Managers only' });

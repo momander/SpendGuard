@@ -12,17 +12,15 @@
     <div class="login-container">
         <h1>SpendGuard</h1>
         <p>Login to manage purchase requests</p>
-        <button id="login-btn" class="btn-primary">Sign in with Google</button>
+        <button id="login-admin-btn" class="btn-primary" style="margin-bottom: 10px;">Log in as an admin</button>
+        <button id="login-user-btn" class="btn-primary">Log in as a regular user</button>
     </div>
-
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
     <script type="module">
         import { signIn, onAuthStateChanged } from './src/auth.js';
 
-        document.getElementById('login-btn').addEventListener('click', signIn);
+        document.getElementById('login-admin-btn').addEventListener('click', () => signIn('admin'));
+        document.getElementById('login-user-btn').addEventListener('click', () => signIn('user'));
 
         onAuthStateChanged(user => {
             if (user) {

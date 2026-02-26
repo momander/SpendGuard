@@ -70,8 +70,7 @@ async function loadRequests() {
     try {
         const requests = await getRequests();
 
-        // Use the module-scope currentUser if available, otherwise try to get from Firebase safely
-        const user = currentUser || (window.firebase && firebase.auth().currentUser);
+        const user = currentUser;
         const currentUserUid = user ? user.uid : null;
 
         const myRequests = requests.filter(r => r.uid === currentUserUid);
