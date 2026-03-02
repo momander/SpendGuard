@@ -8,14 +8,12 @@ Ensure all new features that modify data (like 'Archive') follow a Red-Green-Ref
 
 # Instructions
 1. **Analyze User Intent**: When asked to add a data-modifying feature, identify the target resource (e.g., Expense Report).
-2. **Draft a Failing Test (RED)**: Write a Vitest or Jest test case that attempts to perform the action with a mismatched `userId`. 
-   - *Example:* The test should mock a request where `session.user.id !== record.ownerId` and assert a `403 Forbidden` response.
+2. **Draft a Failing Test (RED)**: Write a Vitest or Jest test case that attempts to perform the action.
 3. **Wait for Approval**: Present the test code to the developer before writing the feature logic.
 4. **Implement Implementation (GREEN)**: Once approved, write the minimal backend logic in the controller to pass the test by validating the owner's identity.
 
 # Constraints
-- **Do Not** implement the feature logic without first showing the failing security test.
-- **Do Not** use hardcoded IDs; always use session-based context.
+- **Do Not** implement the feature logic without first showing the failing test.
 
 # Examples
 User: "Add an archive button to the reports table."
