@@ -1,0 +1,13 @@
+{
+    "name": "spendguard-root",
+    "version": "1.0.0",
+    "description": "Root package for SpendGuard",
+    "scripts": {
+        "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+        "start:server": "cd server && node --watch src/app.js",
+        "start:client": "cd client && npx serve -l 8080 -n ."
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}

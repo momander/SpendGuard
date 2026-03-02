@@ -91,7 +91,7 @@ app.patch('/api/requests/:id', async (req, res) => {
 });
 if (require.main === module) {
     app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+        console.log(`🚀 Server is running on port ${PORT} (Auto-reload works!)`);
     });
 }
 module.exports = app;
