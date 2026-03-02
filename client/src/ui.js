@@ -1,4 +1,4 @@
-import { createRequest, getRequests, updateRequestStatus, getUserProfile } from './api.js';
+import { createRequest, getRequests, updateRequestStatus, getUserProfile, deleteAllRequests } from './api.js';
 import { signOut } from './auth.js';
 
 let currentUser = null;
@@ -48,6 +48,11 @@ export async function setupDashboard(user) {
     }
 
     loadRequests();
+
+    const btnDeleteAll = document.getElementById('btn-delete-all');
+    if (btnDeleteAll) {
+        btnDeleteAll.addEventListener('click', handleDeleteAll);
+    }
 }
 
 async function handleCreateRequest(e) {
@@ -180,4 +185,16 @@ function timeAgo(dateString) {
         return interval + " minutes ago";
     }
     return "just now";
+}
+
+async function handleDeleteAll() {
+    const msg = 'Are you sure you want to delete all requests? This action cannot be undone.';
+    if (!confirm(msg)) return;
+    try {
+        await deleteAllRequests();
+        alert('All requests deleted successfully!');
+        loadRequests();
+    } catch (e) {
+        alert(e.message);
+    }
 }

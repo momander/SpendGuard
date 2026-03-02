@@ -70,6 +70,28 @@ app.get('/api/requests', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+// Delete all requests (Manager only)
+app.delete('/api/requests/all', async (req, res) => {
+    try {
+        const role = req.user.role;
+        if (role !== 'manager') {
+            return res.status(403).json({ error: 'Forbidden: Managers only' });
+        }
+
+        const snapshot = await db.collection('requests').get();
+        const batch = db.batch();
+        snapshot.docs.forEach((doc) => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
+
+        res.json({ message: 'All requests deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting requests:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // Update request status (Manager only)
 app.patch('/api/requests/:id', async (req, res) => {
     try {

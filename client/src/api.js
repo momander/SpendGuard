@@ -48,3 +48,9 @@ export async function updateRequestStatus(id, status) {
 export async function getUserProfile() {
     return authFetch('/user/me');
 }
+
+export async function deleteAllRequests() {
+    return authFetch('/requests/all', {
+        method: 'DELETE'
+    });
+}

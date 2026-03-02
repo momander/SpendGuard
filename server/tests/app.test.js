@@ -112,4 +112,38 @@ describe('Express API Tests', () => {
             expect(res.status).toBe(403);
         });
     });
+    describe('DELETE /api/requests/all', () => {
+        it('deletes all requests if user is manager', async () => {
+            const mockDoc1 = { ref: 'ref1' };
+            const mockDoc2 = { ref: 'ref2' };
+            const mockGet = vi.fn().mockResolvedValue({ docs: [mockDoc1, mockDoc2] });
+            const mockBatchDelete = vi.fn();
+            const mockBatchCommit = vi.fn().mockResolvedValue();
+
+            db.collection.mockReturnValue({ get: mockGet });
+            db.batch = vi.fn().mockReturnValue({
+                delete: mockBatchDelete,
+                commit: mockBatchCommit
+            });
+
+            const res = await request(app)
+                .delete('/api/requests/all')
+                .set('Authorization', 'Bearer admin-456');
+
+            expect(res.status).toBe(200);
+            expect(res.body).toEqual({ message: 'All requests deleted successfully' });
+            expect(mockBatchDelete).toHaveBeenCalledTimes(2);
+            expect(mockBatchDelete).toHaveBeenCalledWith('ref1');
+            expect(mockBatchDelete).toHaveBeenCalledWith('ref2');
+            expect(mockBatchCommit).toHaveBeenCalled();
+        });
+
+        it('returns 403 if user is not manager', async () => {
+            const res = await request(app)
+                .delete('/api/requests/all')
+                .set('Authorization', 'Bearer user-123');
+            expect(res.status).toBe(403);
+            expect(res.body).toEqual({ error: 'Forbidden: Managers only' });
+        });
+    });
 });

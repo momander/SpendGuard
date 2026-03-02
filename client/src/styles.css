@@ -49,6 +49,12 @@ button {
   color: white;
 }
 
+.btn-danger {
+  background-color: #d32f2f;
+  color: white;
+  font-weight: bold;
+}
+
 .login-container {
   display: flex;
   flex-direction: column;
