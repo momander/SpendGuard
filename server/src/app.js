@@ -90,6 +90,58 @@ app.get('/api/requests', async (req, res) => {
     }
 });
 
+// Archive a request (Owner only)
+app.patch('/api/requests/:id/archive', async (req, res) => {
+    try {
+        const uid = req.user.uid;
+        const requestId = req.params.id;
+
+        const docRef = db.collection('requests').doc(requestId);
+        const requestDoc = await docRef.get();
+
+        if (!requestDoc.exists) {
+            return res.status(404).json({ error: 'Request not found' });
+        }
+
+        if (requestDoc.data().uid !== uid) {
+            return res.status(403).json({ error: 'Forbidden: You do not own this request' });
+        }
+
+        await docRef.update({ status: 'ARCHIVED' });
+        res.json({ message: 'Request archived successfully' });
+    } catch (error) {
+        console.error('Error archiving request:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+
+// Archive a request (Owner only)
+app.patch('/api/requests/:id/archive', async (req, res) => {
+    try {
+        const uid = req.user.uid;
+        const requestId = req.params.id;
+
+        const docRef = db.collection('requests').doc(requestId);
+        const requestDoc = await docRef.get();
+
+        if (!requestDoc.exists) {
+            return res.status(404).json({ error: 'Request not found' });
+        }
+
+        if (requestDoc.data().uid !== uid) {
+            return res.status(403).json({ error: 'Forbidden: You do not own this request' });
+        }
+
+        await docRef.update({ status: 'ARCHIVED' });
+        res.json({ message: 'Request archived successfully' });
+    } catch (error) {
+        console.error('Error archiving request:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 // Update request status (Manager only)
 app.patch('/api/requests/:id', async (req, res) => {
     try {
@@ -113,6 +165,7 @@ app.patch('/api/requests/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 
 if (require.main === module) {
     app.listen(PORT, () => {
