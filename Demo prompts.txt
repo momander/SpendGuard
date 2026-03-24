@@ -1,0 +1,10 @@
+Demo prompts
+
+
+Add an Archive button that lets users archive their own requests. Archived
+requests should appear in an Archive Requests section below My Requests.
+Use .agent/skills/tdd/SKILL.md and .agent/rules/project-setup.md.
+
+
+Is the code up to our standards?
+
