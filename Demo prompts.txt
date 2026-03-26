@@ -1,9 +1,12 @@
 Demo prompts
 
 
-Add an Archive button that lets users archive their own requests. Archived
-requests should appear in an Archive Requests section below My Requests.
-Use .agent/skills/tdd/SKILL.md and .agent/rules/project-setup.md.
+Let the user Archive their own requests by adding an API endpoint and an Archive
+button next to each request. Archived requests should appear in a new 
+"Archived Requests" section below "My Requests".
+Use .agent/skills/tdd/SKILL.md and .agent/rules/project-setup.md. Do not
+use the browser agent to test the new feature. Instead, tell the user when it's
+done so they can test it manually.
 
 
 Is the code up to our standards?

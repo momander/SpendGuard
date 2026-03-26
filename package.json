@@ -8,6 +8,7 @@
         "start:client": "cd client && npx serve -l 8080 -n ."
     },
     "devDependencies": {
-        "concurrently": "^8.2.2"
+        "concurrently": "^8.2.2",
+        "vitest": "^4.1.1"
     }
 }

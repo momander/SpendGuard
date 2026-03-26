@@ -14,6 +14,7 @@ Ensure all new features that modify data (like 'Archive') follow a Red-Green-Ref
 
 # Constraints
 - **Do Not** implement the feature logic without first showing the failing test.
+- **Do Not** use the browser agent to verify that the web page works. Let the user know when the code is ready, so they can verify.
 
 # Examples
 User: "Add an archive button to the reports table."
