@@ -10,7 +10,7 @@ Ensure all new features, such as the 'Archive' functionality, are implemented us
 1. **Pattern Matching**: After writing code, scan the existing codebase for similar patterns (e.g., look at how 'Approve' or 'Reject' is implemented).
 2. **Mandatory Constants**: Do not use "magic strings" or hardcoded status values. You must use the existing `ExpenseStatus` enum or constants file.
 3. **Service Layer Isolation**: All business logic must reside in the `services/` directory. Do not place database logic directly in the UI components.
-4. **Dependency Check**: Do not add new npm packages. Use the existing `@spendguard/ui` library for all buttons and icons.
+4. **Dependency Check**: Do not add new npm packages.
 
 # Constraints
 - **Compliance Warning**: If the proposed implementation violates a pattern, you must generate a 'Compliance Warning' artifact first and show it to the user.
