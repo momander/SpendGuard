@@ -6,8 +6,9 @@ button next to each request. Archived requests should appear in a new
 "Archived Requests" section below "My Requests".
 Use .agent/skills/tdd/SKILL.md and .agent/rules/project-setup.md. Do not
 use the browser agent to test the new feature. Instead, tell the user when it's
-done so they can test it manually.
+done so they can test it manually. Do not consider code quality; implement this
+in the most straightforward way.
 
 
-Is the code up to our standards?
+Is the code up to our standards? Generate a compliance report.
 

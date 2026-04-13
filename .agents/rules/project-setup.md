@@ -5,7 +5,7 @@ trigger: always_on
 # SpendGuard Project Architecture & Build Rules
 
 ## Directory Structure
-- `/client`: React frontend. Runs on **Port 8080**.
+- `/client`: Vanilla JS frontend. Runs on **Port 8080**.
 - `/server`: Node.js/Express backend. Runs on **Port 3000**.
 
 ## Communication & Ports
